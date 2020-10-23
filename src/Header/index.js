@@ -1,0 +1,91 @@
+import React, { useEffect, useState } from 'react'
+import useStyles from './styles'
+import AppBar from '@material-ui/core/AppBar'
+import ToolBar from '@material-ui/core/Toolbar'
+import Button from '@material-ui/core/Button'
+import { NavLink } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
+import Select from '@material-ui/core/Select'
+import MenuItem from '@material-ui/core/MenuItem'
+
+const Header = (props) => {
+	const classes = useStyles()
+	const [loggedin, setLoggedin] = useState(false)
+	const [menuItems, setMenuItem] = useState('')
+	useEffect(() => {
+		if (localStorage.getItem('token') !== null) {
+			props.setUserToken(localStorage.getItem('token'))
+			setLoggedin(true)
+		}
+	})
+	const logoutUser = () => {
+		props.setUserToken(null)
+		localStorage.removeItem('token')
+		setLoggedin(false)
+		props.history.push('/auth')
+	}
+	return (
+		<AppBar position='static'>
+			<ToolBar>
+				{
+					loggedin ?
+						<div>
+							<Button style={{ color: 'white' }} onClick={logoutUser}>Logout</Button>
+							<NavLink
+								to='/'
+								activeClassName={classes.link}
+								className={classes.link}>
+								<Button style={{ color: 'white' }}>Home</Button>
+							</NavLink>
+						</div>
+						:
+						<NavLink
+							to='/auth'
+							activeClassName={classes.link}
+							className={classes.link}>
+							<Button style={{ color: 'white' }}>Sign In</Button>
+						</NavLink>
+				}
+				<NavLink
+					to='/profile'
+					activeClassName={classes.link}
+					className={classes.link}>
+					<Button style={{ color: 'white' }}>Profile</Button>
+				</NavLink>
+				<NavLink
+					to='/sell'
+					activeClassName={classes.link}
+					className={classes.link}>
+					<Button style={{ color: 'white' }}>Sell</Button>
+				</NavLink>
+				<Select
+					value={menuItems}
+					onChange={(event) => setMenuItem(event.target.value)}
+					variant='outlined'
+					defaultValue='Select Meds'
+				>
+					<MenuItem value='ten'>Ten</MenuItem>
+					<MenuItem value='two'>Two</MenuItem>
+					<MenuItem value='three'>Three</MenuItem>
+				</Select>
+
+			</ToolBar>
+		</AppBar>
+	)
+}
+
+
+const mapStateToProps = state => {
+	return {
+		token: state.token
+	}
+}
+
+const mapDispatchToProps = dispatch => {
+	return {
+		setUserToken: (token) => dispatch({ type: 'LOGIN', value: token })
+	}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Header))

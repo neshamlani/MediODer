@@ -1,26 +1,47 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from 'react';
+import { Switch, Route, Redirect } from 'react-router-dom'
+import Header from './Header'
+import Login from './Login'
+import {connect} from 'react-redux'
+import {withRouter} from 'react-router-dom'
+import Signup from './Signup'
+import Home from './Home'
+import Sell from './Sell'
+import Profile from './Profile'
 
-function App() {
+const App = (props) => {
+  useEffect(() => {
+    if(props.token===null){
+      props.history.push('/auth')
+    }
+  }, [])
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Header />
+      {
+        props.token ?
+          <Switch>
+            <Route path='/profile' component={Profile} />
+            <Route path='/sell' component={Sell} />
+            <Route path='/' component={Home} />
+          </Switch>
+          :
+          <Switch>
+            <Route path='/auth' component={Login}/>
+            <Route path='/sign' component={Signup}/>
+            <Route path='/'  render={()=><Redirect to='/auth'/>}/>
+          </Switch>
+      }
+
     </div>
-  );
+  )
 }
 
-export default App;
+
+const mapStateToProps=state=>{
+  return{
+      token:state.token
+  }
+}
+
+export default connect(mapStateToProps)(withRouter(App));
