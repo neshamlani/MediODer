@@ -4,6 +4,7 @@ const initialState={
     token:null,
     medicines:[],
     userDetails:'',
+    cart:[]
 }
 
 const reducer=(state=initialState,action)=>{
@@ -25,7 +26,12 @@ const reducer=(state=initialState,action)=>{
                 ...state,
                 userDetails:action.value
             }
-       
+        
+        case 'ADD_TO_CART':
+            return{
+                ...state,
+                cart:[...state.cart,action.value]
+            }
         default:
             return state
     }

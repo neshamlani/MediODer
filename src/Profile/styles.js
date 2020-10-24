@@ -12,17 +12,17 @@ const useStyles=makeStyles((theme)=>({
     textAlign:'center'
   },
   formWrapper:{
-    display:'flex',
-    flexDirection:'column',
-    margin:'auto',
-    marginTop:10
+    padding:20,
+    width:'auto'
   },
   textField:{
     width:400,
     marginBottom:10,
-    '&:disabled':{
-      color:'black !important',
-      fontWeight:'bold !important'
+  },
+  textFieldDisabled:{
+    '& .MuiInputBase-input.Mui-disabled':{
+      color:'rgba(0,0,0,0.7)',
+      fontWeight:'bold'
     }
   }
 }))

@@ -61,8 +61,8 @@ const Sell = (props) => {
 	}
 
 	const changeHandler = (event) => {
-		setSearch(event.target.value)
-		setSearchResult(props.getMedicines.filter(val => val.name.includes(search)))
+		setSearch(event.target.value.toLowerCase())
+		setSearchResult(props.getMedicines.filter(val => val.name.toLowerCase().includes(search)))
 	}
 
 	const sellHandler = (meds) => {
@@ -70,7 +70,8 @@ const Sell = (props) => {
 			name: meds.name,
 			photo: meds.photo,
 			price: meds.price,
-			id: meds.key
+			id: meds.key,
+			medType:meds.type
 		}
 		//upload the data of medicine to 2 documents as vendor wants to sell the medicines
 		axios.post(`https://medi-o-der.firebaseio.com/${userName}.json`, medData)
@@ -154,7 +155,7 @@ const Sell = (props) => {
 												<Grid item xs={6} sm={4} md={3} lg={2}>
 													<Card>
 														<CardContent>
-															<img src={val.photo} width='auto' height='150' />
+															<img src={val.photo} width='150' height='150' />
 															<div>Name:{val.name}</div>
 															<div>Price:{val.price}</div>
 														</CardContent>
@@ -181,7 +182,7 @@ const Sell = (props) => {
 													<Grid item xs={6} sm={4} md={3} lg={2}>
 														<Card>
 															<CardContent>
-																<img src={val.photo} width='auto' height='150' />
+																<img src={val.photo} width='150' height='150' />
 																<div>Name:{val.name}</div>
 																<div>Price:{val.price}</div>
 															</CardContent>

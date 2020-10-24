@@ -27,17 +27,45 @@ const Header = (props) => {
 	}
 	return (
 		<AppBar position='static'>
-			<ToolBar>
+			<ToolBar className={classes.header}>
 				{
 					loggedin ?
 						<div>
-							<Button style={{ color: 'white' }} onClick={logoutUser}>Logout</Button>
 							<NavLink
 								to='/'
 								activeClassName={classes.link}
 								className={classes.link}>
 								<Button style={{ color: 'white' }}>Home</Button>
 							</NavLink>
+							<NavLink
+								to='/profile'
+								activeClassName={classes.link}
+								className={classes.link}>
+								<Button style={{ color: 'white' }}>Profile</Button>
+							</NavLink>
+							<NavLink
+								to='/sell'
+								activeClassName={classes.link}
+								className={classes.link}>
+								<Button style={{ color: 'white' }}>Sell</Button>
+							</NavLink>
+							<NavLink
+								to='/cart'
+								activeClassName={classes.link}
+								className={classes.link}>
+								<Button style={{ color: 'white' }}>Cart</Button>
+							</NavLink>
+							<Button style={{ color: 'white' }} onClick={logoutUser}>Logout</Button>
+							{/* <Select
+								value={menuItems}
+								onChange={(event) => setMenuItem(event.target.value)}
+								variant='outlined'
+								defaultValue='Select Meds'
+							>
+								<MenuItem value='ten'>Ten</MenuItem>
+								<MenuItem value='two'>Two</MenuItem>
+								<MenuItem value='three'>Three</MenuItem>
+							</Select> */}
 						</div>
 						:
 						<NavLink
@@ -47,29 +75,6 @@ const Header = (props) => {
 							<Button style={{ color: 'white' }}>Sign In</Button>
 						</NavLink>
 				}
-				<NavLink
-					to='/profile'
-					activeClassName={classes.link}
-					className={classes.link}>
-					<Button style={{ color: 'white' }}>Profile</Button>
-				</NavLink>
-				<NavLink
-					to='/sell'
-					activeClassName={classes.link}
-					className={classes.link}>
-					<Button style={{ color: 'white' }}>Sell</Button>
-				</NavLink>
-				<Select
-					value={menuItems}
-					onChange={(event) => setMenuItem(event.target.value)}
-					variant='outlined'
-					defaultValue='Select Meds'
-				>
-					<MenuItem value='ten'>Ten</MenuItem>
-					<MenuItem value='two'>Two</MenuItem>
-					<MenuItem value='three'>Three</MenuItem>
-				</Select>
-
 			</ToolBar>
 		</AppBar>
 	)

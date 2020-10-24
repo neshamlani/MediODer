@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
 		marginBottom: 10
 	},
 	images: {
-		width: 'auto',
+		width: '150px',
 		height: '150px',
 	},
 	cardContent: {

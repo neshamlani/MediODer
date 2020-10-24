@@ -59,6 +59,10 @@ const Home = (props) => {
 			})
 	}, [])
 
+	const addToCart=(val)=>{
+		props.addToCart(val)
+	}
+
 	return (
 		<div className={classes.mainWrapper}>
 			<div className={classes.title}>Recommended Medicines</div>
@@ -78,7 +82,8 @@ const Home = (props) => {
 										<CardActions>
 											<Button
 												variant='contained'
-												color='primary'>Add To Cart</Button>
+												color='primary'
+												onClick={()=>addToCart(val)}>Add To Cart</Button>
 										</CardActions>
 									</Card>
 							</Grid>
@@ -98,7 +103,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
 	return {
 		medicinesFetched: (fetched) => dispatch({ type: 'MED_FETCHED', value: fetched }),
-		setUserData: (details) => dispatch({ type: 'SET_USER_DETAILS', value: details })
+		setUserData: (details) => dispatch({ type: 'SET_USER_DETAILS', value: details }),
+		addToCart:(items)=>dispatch({type:'ADD_TO_CART',value:items})
 	}
 }
 

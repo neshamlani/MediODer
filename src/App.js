@@ -8,6 +8,7 @@ import Signup from './Signup'
 import Home from './Home'
 import Sell from './Sell'
 import Profile from './Profile'
+import Cart from './Cart'
 
 const App = (props) => {
   useEffect(() => {
@@ -23,6 +24,7 @@ const App = (props) => {
           <Switch>
             <Route path='/profile' component={Profile} />
             <Route path='/sell' component={Sell} />
+            <Route path='/cart' component={Cart} />
             <Route path='/' component={Home} />
           </Switch>
           :
