@@ -62,7 +62,7 @@ const Sell = (props) => {
 
 	const changeHandler = (event) => {
 		setSearch(event.target.value.toLowerCase())
-		setSearchResult(props.getMedicines.filter(val => val.name.toLowerCase().includes(search)))
+		setSearchResult(props.getMedicines.filter(val => val.name.toLowerCase().includes(event.target.value)))
 	}
 
 	const sellHandler = (meds) => {

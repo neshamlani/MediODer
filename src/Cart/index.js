@@ -2,40 +2,30 @@ import React from 'react'
 import useStyles from './styles'
 import { connect } from 'react-redux'
 import Grid from '@material-ui/core/Grid'
-import Card from '@material-ui/core/Card'
+import CartCard from './CartCard'
 
 const Cart = (props) => {
   const classes = useStyles()
   console.log('props.items', props.items)
+
+  const removeFromCart = (val) => {
+    console.log('val.name', val.name)
+    props.removeFromCart(val.name)
+  }
 
   return (
     <div className={classes.mainWrapper}>
       <Grid container spacing={4}>
         {
           props.items.map(val =>
-            <Grid item xs={12} sm={12} md={6}>
-              <Card>
-                <div className={classes.cardWrapper}>
-                  <div className={classes.imgWrapper}>
-                    <img src={val.photo} alt='Image' className={classes.imgs} />
-                  </div>
-                  <div className={classes.detailsWrapper}>
-                    <div className={classes.leftWrapper}>
-                      <div>{val.name}</div>
-                      <div>{val.price}</div>
-                      <div>{val.medType}</div>
-                      <div>{val.vendor}</div>
-                    </div>
-                    <div>
-                      Add-Delete
-                    </div>
-                    <div>
-                      Buy Now
-                    </div>
-                  </div>
-                </div>
-              </Card>
-            </Grid>
+            <CartCard
+              photo={val.photo}
+              name={val.name}
+              price={val.price}
+              vendor={val.vendor}
+              medType={val.medType}
+              quantity={val.quantity}
+              remove={() => removeFromCart(val)} />
           )
         }
       </Grid>
@@ -48,4 +38,10 @@ const mapStateToProps = state => {
     items: state.cart
   }
 }
-export default connect(mapStateToProps)(Cart)
+
+const mapDispatchToProps = dispatch => {
+  return {
+    removeFromCart: (item) => dispatch({ type: 'REMOVE_FROM_CART', value: item })
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Cart)

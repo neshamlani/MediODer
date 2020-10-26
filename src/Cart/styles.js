@@ -7,11 +7,17 @@ const useStyles=makeStyles((theme)=>({
   },
   cardWrapper:{
     padding:20,
-    display:'flex'
+    display:'flex',
+    ['@media (max-width:650px)']:{
+      flexDirection:'column'
+    }
   },
   imgWrapper:{
     width:100,
-    height:100
+    height:100,
+    ['@media (max-width:650px)']:{
+      paddingLeft:20
+    }
   },
   imgs:{
     width:'100%',
@@ -20,12 +26,29 @@ const useStyles=makeStyles((theme)=>({
   detailsWrapper:{
     paddingLeft:20,
     display:'flex',
-    width:'80%',
-    justifyContent:'space-between'
+    width:'90%',
+    justifyContent:'space-between',
+    ['@media (max-width:650px)']:{
+      flexDirection:'column'
+    }
   },
   leftWrapper:{
     display:'flex',
+    flexWrap:'wrap',
     flexDirection:'column',
+    width:250
+  },
+  spanText:{
+    fontWeight:'bold'
+  },
+
+
+  btnWrapper:{
+    display:'flex',
+    flexDirection:'column'
+  },
+  btn:{
+    marginBottom:10
   }
 }))
 

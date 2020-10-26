@@ -60,6 +60,7 @@ const Home = (props) => {
 	}, [])
 
 	const addToCart=(val)=>{
+		val.quantity=1
 		props.addToCart(val)
 	}
 
