@@ -3,6 +3,7 @@ import useStyles from '../styles'
 import Grid from '@material-ui/core/Grid'
 import Card from '@material-ui/core/Card'
 import Button from '@material-ui/core/Button'
+import TextField from '@material-ui/core/TextField'
 
 const CartCard = (props) => {
   const classes = useStyles()
@@ -20,9 +21,24 @@ const CartCard = (props) => {
               <div><span className={classes.spanText}>Used for: </span> {props.medType}</div>
               <div><span className={classes.spanText}>Seller: </span> {props.vendor}</div>
             </div>
-            <div>
+            <div className={classes.quantityWrapper}>
               <div><span className={classes.spanText}>Quantity: </span> {props.quantity}</div>
+              <div className={classes.incrWrapper}>
+                <Button
+                  variant='contained'
+                  color='primary'
+                  onClick={props.decrement}>-</Button>
 
+                <TextField
+                  value={props.quantity}
+                  className={classes.displayQuantity} 
+                  disabled/>
+
+                <Button
+                  variant='contained'
+                  color='primary'
+                  onClick={props.increment}>+</Button>
+              </div>
             </div>
             <div className={classes.btnWrapper}>
               <Button

@@ -34,6 +34,7 @@ const Sell = (props) => {
 					if (email[0] === userEmail[0]) {
 						if (resp.data[i].licence.toLowerCase() !== 'no') {
 							setIsSeller(true)
+							props.setSellers(true)
 							return
 						}
 					}
@@ -217,4 +218,10 @@ const mapStateToProps = state => {
 	}
 }
 
-export default connect(mapStateToProps)(withRouter(Sell))
+const mapDispatchToProps=dispatch=>{
+	return{
+		setSellers:(sellers)=>dispatch({type:'IS_SELLER',value:sellers})
+	}
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(withRouter(Sell))

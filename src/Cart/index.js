@@ -13,10 +13,19 @@ const Cart = (props) => {
     props.removeFromCart(val.name)
   }
 
+  const increment=(val)=>{
+    props.incrmentQuantity(val)
+  }
+
+  const decrement =(val)=>{
+    props.decrementQuantity(val)
+  }
+
   return (
     <div className={classes.mainWrapper}>
       <Grid container spacing={4}>
         {
+          props.items.length>0?
           props.items.map(val =>
             <CartCard
               photo={val.photo}
@@ -25,8 +34,11 @@ const Cart = (props) => {
               vendor={val.vendor}
               medType={val.medType}
               quantity={val.quantity}
-              remove={() => removeFromCart(val)} />
+              remove={() => removeFromCart(val)} 
+              increment={()=>increment(val)}
+              decrement={()=>decrement(val)}/>
           )
+          :<h1>Add Products To Cart</h1>
         }
       </Grid>
     </div>
@@ -41,7 +53,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    removeFromCart: (item) => dispatch({ type: 'REMOVE_FROM_CART', value: item })
+    removeFromCart: (item) => dispatch({ type: 'REMOVE_FROM_CART', value: item }),
+    incrmentQuantity:(item)=>dispatch({type:'INCREMENT_QUANTITY',value:item}),
+    decrementQuantity:(item)=>dispatch({type:'DECREMENT_QUANTITY',value:item})
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Cart)
