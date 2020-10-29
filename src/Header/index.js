@@ -9,6 +9,7 @@ import { withRouter } from 'react-router-dom'
 import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem'
 
+
 const Header = (props) => {
 	const classes = useStyles()
 	const [loggedin, setLoggedin] = useState(false)
@@ -19,11 +20,11 @@ const Header = (props) => {
 			setLoggedin(true)
 		}
 	})
-	const logoutUser = () => {
-		props.setUserToken(null)
-		localStorage.removeItem('token')
-		setLoggedin(false)
-		props.history.push('/auth')
+	const logoutUser = () => {		
+				props.setUserToken(null)
+				localStorage.removeItem('token')
+				setLoggedin(false)
+				props.history.push('/auth')
 	}
 	return (
 		<AppBar position='static'>
@@ -83,7 +84,7 @@ const Header = (props) => {
 
 const mapStateToProps = state => {
 	return {
-		token: state.token
+		token: state.token,
 	}
 }
 

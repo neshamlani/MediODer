@@ -5,7 +5,6 @@ const initialState = {
 	medicines: [],
 	userDetails: '',
 	cart: [],
-	isSeller:false
 }
 
 const reducer = (state = initialState, action) => {
@@ -29,21 +28,12 @@ const reducer = (state = initialState, action) => {
 			}
 
 		case 'ADD_TO_CART':
-			const found = state.cart.find(val => val === action.value)
+			const found = state.cart.find(val => val.id === action.value.id)
 			if (found) {
-				let replace = state.cart.map(val => {
-					if (val === action.value) {
-						val.quantity++;
-						return val
-					} else {
-						return val;
-					}
-				})
-				return{
-					...state,
-					cart:replace
-				}
+				alert('Already in the cart')
+				return state
 			} else {
+				alert('Added')
 				return {
 					...state,
 					cart: [...state.cart, action.value]
