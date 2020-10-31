@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
     width: 100,
     height: 100,
     ['@media (max-width:650px)']: {
-      paddingLeft: 20
+      margin:'auto'
     }
   },
   imgs: {
@@ -29,14 +29,18 @@ const useStyles = makeStyles((theme) => ({
     width: '90%',
     justifyContent: 'space-between',
     ['@media (max-width:650px)']: {
-      flexDirection: 'column'
+      flexDirection: 'column',
+      marginTop:20
     }
   },
   leftWrapper: {
     display: 'flex',
     flexWrap: 'wrap',
     flexDirection: 'column',
-    width: 250
+    width: 250,
+    ['@media (max-width:650px)']: {
+      margin:'auto'
+    }
   },
   spanText: {
     fontWeight: 'bold'
@@ -44,7 +48,10 @@ const useStyles = makeStyles((theme) => ({
   quantityWrapper: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems:'center'
+    alignItems:'center',
+    ['@media (max-width:650px)']: {
+      margin:'20px 0 20px'
+    }
   },
   incrWrapper: {
     display: 'flex',
