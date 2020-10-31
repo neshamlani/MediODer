@@ -17,7 +17,6 @@ const Sell = (props) => {
 	const [searchResult, setSearchResult] = useState([])
 	const [userName, setUserName] = useState('')
 	const [uploadedMeds, setUploadedMeds] = useState([])
-	const [isSeller, setIsSeller] = useState(false)
 	const [loading, setLoading] = useState(false)
 
 	useEffect(() => {
@@ -25,26 +24,15 @@ const Sell = (props) => {
 		let userEmail = ''
 		userEmail = props.userDetails.split('@')
 		setUserName(userEmail[0])
-		//order the database by licence to check it the user is consumer or vendor using the email id
-		axios.get('https://medi-o-der.firebaseio.com/users.json?orderBy="licence"')
-			.then((resp) => {
-				for (let i in resp.data) {
-					var email = resp.data[i].email
-					email = email.split('@')
-					if (email[0] === userEmail[0]) {
-						if (resp.data[i].licence.toLowerCase() !== 'no') {
-							setIsSeller(true)
-							return
-						}
-					}
-				}
-			})
-			.catch(err => alert(err))
+
 		//fetch posted medicines of vendor to display it to vendor 
 		axios.get(`https://medi-o-der.firebaseio.com/${userEmail[0]}.json`)
 			.then((resp) => {
 				var data = []
 				for (let i in resp.data) {
+					if(i==='cart'){
+						continue
+					}
 					data.push({
 						...resp.data[i],
 						key: i
@@ -71,7 +59,7 @@ const Sell = (props) => {
 			photo: meds.photo,
 			price: meds.price,
 			id: meds.key,
-			medType:meds.type
+			medType: meds.type
 		}
 		//upload the data of medicine to 2 documents as vendor wants to sell the medicines
 		axios.post(`https://medi-o-der.firebaseio.com/${userName}.json`, medData)
@@ -82,7 +70,7 @@ const Sell = (props) => {
 						// var addMeds=uploadedMeds
 						// addMeds.push(medData)
 						// setUploadedMeds(addMeds)
-						alert('Posted')						
+						alert('Posted')
 					})
 					.catch(err => alert(err))
 			})
@@ -118,92 +106,81 @@ const Sell = (props) => {
 		<div>
 			{
 				loading ? <Spinner /> :
-
-					<div>
-						{
-							isSeller
-								?
-								<div className={classes.container}>
-									<ValidatorForm
-										onSubmit={handlerSearch}>
-										<Grid container justify='center' alignItems='center'>
-											<Grid item md={6}>
-												<TextValidator
-													type='text'
-													value={search}
-													variant='filled'
-													label='Search'
-													onChange={changeHandler}
-													validators={['required']}
-													errorMessages={['this field is required']}
-													fullWidth
-												/>
-											</Grid>
-											<Grid item>
-												<Button type='submit'><SearchIcon fontSize='small' color='primary' />Search</Button>
-											</Grid>
+					<div className={classes.container}>
+						<ValidatorForm
+							onSubmit={handlerSearch}>
+							<Grid container justify='center' alignItems='center'>
+								<Grid item md={6}>
+									<TextValidator
+										type='text'
+										value={search}
+										variant='filled'
+										label='Search'
+										onChange={changeHandler}
+										validators={['required']}
+										errorMessages={['this field is required']}
+										fullWidth
+									/>
+								</Grid>
+								<Grid item>
+									<Button type='submit'><SearchIcon fontSize='small' color='primary' />Search</Button>
+								</Grid>
+							</Grid>
+						</ValidatorForm>
+						<Grid
+							container
+							justify='center'
+							alignItems='center'
+							style={{ textAlign: 'left' }}
+							spacing={2}>
+							{
+								searchResult.map(val =>
+									<Grid item xs={6} sm={4} md={3} lg={2}>
+										<Card>
+											<CardContent>
+												<img src={val.photo} width='150' height='150' />
+												<div>Name:{val.name}</div>
+												<div>Price:{val.price}</div>
+											</CardContent>
+											<CardActions>
+												<Button
+													variant='contained'
+													color='primary'
+													onClick={() => sellHandler(val)}>Sell</Button>
+											</CardActions>
+										</Card>
+									</Grid>)
+							}
+						</Grid>
+						<div className={classes.title}>Your Posted Medicines</div>
+						<Grid
+							container
+							justify='center'
+							alignItems='center'
+							style={{ textAlign: 'left' }}
+							spacing={2}>
+							{
+								uploadedMeds.map((val) => {
+									return (
+										<Grid item xs={6} sm={4} md={3} lg={2}>
+											<Card>
+												<CardContent>
+													<img src={val.photo} width='150' height='150' />
+													<div>Name:{val.name}</div>
+													<div>Price:{val.price}</div>
+												</CardContent>
+												<CardActions>
+													<Button
+														variant='contained'
+														color='primary'
+														onClick={() => cancelHandler(val)}>Cancel</Button>
+												</CardActions>
+											</Card>
 										</Grid>
-									</ValidatorForm>
-									<Grid
-										container
-										justify='center'
-										alignItems='center'
-										style={{ textAlign: 'left' }}
-										spacing={2}>
-										{
-											searchResult.map(val =>
-												<Grid item xs={6} sm={4} md={3} lg={2}>
-													<Card>
-														<CardContent>
-															<img src={val.photo} width='150' height='150' />
-															<div>Name:{val.name}</div>
-															<div>Price:{val.price}</div>
-														</CardContent>
-														<CardActions>
-															<Button
-																variant='contained'
-																color='primary'
-																onClick={() => sellHandler(val)}>Sell</Button>
-														</CardActions>
-													</Card>
-												</Grid>)
-										}
-									</Grid>
-									<div className={classes.title}>Your Posted Medicines</div>
-									<Grid
-										container
-										justify='center'
-										alignItems='center'
-										style={{ textAlign: 'left' }}
-										spacing={2}>
-										{
-											uploadedMeds.map((val) => {
-												return (
-													<Grid item xs={6} sm={4} md={3} lg={2}>
-														<Card>
-															<CardContent>
-																<img src={val.photo} width='150' height='150' />
-																<div>Name:{val.name}</div>
-																<div>Price:{val.price}</div>
-															</CardContent>
-															<CardActions>
-																<Button
-																	variant='contained'
-																	color='primary'
-																	onClick={() => cancelHandler(val)}>Cancel</Button>
-															</CardActions>
-														</Card>
-													</Grid>
-												)
-											})
-										}
-									</Grid>
-								</div>
-								:
-								<div className={classes.container}>
-									<div className={classes.title}>You are not a seller</div>
-								</div>
-						}
+									)
+								})
+							}
+						</Grid>
 					</div>
 			}
 		</div>

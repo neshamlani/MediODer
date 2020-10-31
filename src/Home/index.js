@@ -12,6 +12,7 @@ const Home = (props) => {
 	const classes = useStyles()
 	const [meds, setMeds] = useState([])
 	const [loading, setLoading] = useState(false)
+	const [email,setEmail]=useState(null)
 	useEffect(() => {
 		setLoading(true)
 		//Fetched the posted medicine details from posted document to display it to consumer
@@ -49,6 +50,7 @@ const Home = (props) => {
 			.then((resp) => {
 				let email = ''
 				resp.data.users.map(val => email = val.email)
+				setEmail(email)
 				props.setUserData(email)
 				setLoading(false)
 			})
@@ -56,11 +58,32 @@ const Home = (props) => {
 				alert(err)
 				setLoading(false)
 			})
-	}, [])
+
+		//Fetch user data to check if the user is vendor or consumer
+		axios.get('https://medi-o-der.firebaseio.com/users.json')
+		.then(resp=>{
+			for(let i in resp.data){
+				if(email===resp.data[i].email){
+					if(resp.data[i].licence.toLowerCase()!=='no'){
+						props.isSeller()
+						return
+					}
+				}
+			}
+		})
+		.catch(err=>alert(err))
+	}, [email])
 
 	const addToCart=(val)=>{
 		val.quantity=1
-		props.addToCart(val)
+		//props.addToCart(val)
+		let user=email.split('@')
+		axios.put(`https://medi-o-der.firebaseio.com/${user[0]}/cart/${val.id}.json`,{...val})
+		.then(resp=>{
+			console.log('resp', resp)
+			alert('Added')
+		})
+		.catch(err=>alert(err))
 	}
 
 	return (
@@ -104,7 +127,7 @@ const mapDispatchToProps = dispatch => {
 	return {
 		medicinesFetched: (fetched) => dispatch({ type: 'MED_FETCHED', value: fetched }),
 		setUserData: (details) => dispatch({ type: 'SET_USER_DETAILS', value: details }),
-		addToCart:(items)=>dispatch({type:'ADD_TO_CART',value:items})
+		isSeller:()=>dispatch({type:'IS_SELLER'})
 	}
 }
 

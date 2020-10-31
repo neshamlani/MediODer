@@ -4,7 +4,7 @@ const initialState = {
 	token: null,
 	medicines: [],
 	userDetails: '',
-	cart: [],
+	isSeller:false
 }
 
 const reducer = (state = initialState, action) => {
@@ -27,56 +27,11 @@ const reducer = (state = initialState, action) => {
 				userDetails: action.value
 			}
 
-		case 'ADD_TO_CART':
-			const found = state.cart.find(val => val.id === action.value.id)
-			if (found) {
-				alert('Already in the cart')
-				return state
-			} else {
-				alert('Added')
-				return {
+			case 'IS_SELLER':
+				return{
 					...state,
-					cart: [...state.cart, action.value]
+					isSeller:true
 				}
-			}
-
-		case 'REMOVE_FROM_CART':
-			return {
-				...state,
-				cart: state.cart.filter(val => val.name !== action.value)
-			}
-
-		case 'INCREMENT_QUANTITY':
-			let updated = state.cart.map(val => {
-				if (val === action.value) {
-					val.quantity++
-					return val
-				} else {
-					return val
-				}
-			})
-			return {
-				...state,
-				cart: updated
-			}
-
-		case 'DECREMENT_QUANTITY':
-			let removed = state.cart.map(val => {
-				if (val === action.value) {
-					if (val.quantity <= 1) {
-						return val
-					}
-					val.quantity--
-					return val
-				} else {
-					return val
-				}
-			})
-			return {
-				...state,
-				cart: removed
-			}
-
 		default:
 			return state
 	}

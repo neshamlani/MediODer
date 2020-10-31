@@ -20,12 +20,13 @@ const Header = (props) => {
 			setLoggedin(true)
 		}
 	})
-	const logoutUser = () => {		
-				props.setUserToken(null)
-				localStorage.removeItem('token')
-				setLoggedin(false)
-				props.history.push('/auth')
+	const logoutUser = () => {
+		props.setUserToken(null)
+		localStorage.removeItem('token')
+		setLoggedin(false)
+		props.history.push('/auth')
 	}
+
 	return (
 		<AppBar position='static'>
 			<ToolBar className={classes.header}>
@@ -44,12 +45,16 @@ const Header = (props) => {
 								className={classes.link}>
 								<Button style={{ color: 'white' }}>Profile</Button>
 							</NavLink>
-							<NavLink
-								to='/sell'
-								activeClassName={classes.link}
-								className={classes.link}>
-								<Button style={{ color: 'white' }}>Sell</Button>
-							</NavLink>
+							{
+								props.isSeller ?
+									<NavLink
+										to='/sell'
+										activeClassName={classes.link}
+										className={classes.link}>
+										<Button style={{ color: 'white' }}>Sell</Button>
+									</NavLink>
+									:null
+							}
 							<NavLink
 								to='/cart'
 								activeClassName={classes.link}
@@ -85,6 +90,7 @@ const Header = (props) => {
 const mapStateToProps = state => {
 	return {
 		token: state.token,
+		isSeller: state.isSeller
 	}
 }
 
