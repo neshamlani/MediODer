@@ -31,8 +31,8 @@ const CartCard = (props) => {
 
                 <TextField
                   value={props.quantity}
-                  className={classes.displayQuantity} 
-                  disabled/>
+                  className={classes.displayQuantity}
+                  disabled />
 
                 <Button
                   variant='contained'
@@ -46,12 +46,6 @@ const CartCard = (props) => {
                 variant='contained'
                 className={classes.btn}
                 color='primary'>Remove</Button>
-
-              <Button
-                //onClick={props.remove}
-                variant='contained'
-                className={classes.btn}
-                color='primary'>Buy Now</Button>
             </div>
           </div>
         </div>

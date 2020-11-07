@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
 import Grid from '@material-ui/core/Grid'
 import SearchIcon from '@material-ui/icons/Search'
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator'
@@ -30,7 +30,7 @@ const Sell = (props) => {
 			.then((resp) => {
 				var data = []
 				for (let i in resp.data) {
-					if(i==='cart'){
+					if (i === 'cart') {
 						continue
 					}
 					data.push({
@@ -134,22 +134,28 @@ const Sell = (props) => {
 							style={{ textAlign: 'left' }}
 							spacing={2}>
 							{
-								searchResult.map(val =>
-									<Grid item xs={6} sm={4} md={3} lg={2}>
-										<Card>
-											<CardContent>
-												<img src={val.photo} width='150' height='150' />
-												<div>Name:{val.name}</div>
-												<div>Price:{val.price}</div>
-											</CardContent>
-											<CardActions>
-												<Button
-													variant='contained'
-													color='primary'
-													onClick={() => sellHandler(val)}>Sell</Button>
-											</CardActions>
-										</Card>
-									</Grid>)
+								search ?
+									searchResult.map(val =>
+										<Fragment key={val.id}>
+											<Grid item xs={6} sm={4} md={3} lg={2}>
+												<Card>
+													<CardContent>
+														<img src={val.photo} width='150' height='150' />
+														<div>Name:{val.name}</div>
+														<div>Price:{val.price}</div>
+													</CardContent>
+													<CardActions>
+														<Button
+															variant='contained'
+															color='primary'
+															onClick={() => sellHandler(val)}>Sell</Button>
+													</CardActions>
+												</Card>
+											</Grid>
+										</Fragment>
+									)
+									:
+									null
 							}
 						</Grid>
 						<div className={classes.title}>Your Posted Medicines</div>
@@ -162,21 +168,23 @@ const Sell = (props) => {
 							{
 								uploadedMeds.map((val) => {
 									return (
-										<Grid item xs={6} sm={4} md={3} lg={2}>
-											<Card>
-												<CardContent>
-													<img src={val.photo} width='150' height='150' />
-													<div>Name:{val.name}</div>
-													<div>Price:{val.price}</div>
-												</CardContent>
-												<CardActions>
-													<Button
-														variant='contained'
-														color='primary'
-														onClick={() => cancelHandler(val)}>Cancel</Button>
-												</CardActions>
-											</Card>
-										</Grid>
+										<Fragment key={val.id}>
+											<Grid item xs={6} sm={4} md={3} lg={2}>
+												<Card>
+													<CardContent>
+														<img src={val.photo} width='150' height='150' />
+														<div>Name:{val.name}</div>
+														<div>Price:{val.price}</div>
+													</CardContent>
+													<CardActions>
+														<Button
+															variant='contained'
+															color='primary'
+															onClick={() => cancelHandler(val)}>Cancel</Button>
+													</CardActions>
+												</Card>
+											</Grid>
+										</Fragment>
 									)
 								})
 							}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState,Fragment } from 'react'
 import useStyles from './styles'
 import Grid from '@material-ui/core/Grid'
 import Card from '@material-ui/core/Card'
@@ -12,7 +12,7 @@ const Home = (props) => {
 	const classes = useStyles()
 	const [meds, setMeds] = useState([])
 	const [loading, setLoading] = useState(false)
-	const [email,setEmail]=useState(null)
+	const [email, setEmail] = useState(null)
 	useEffect(() => {
 		setLoading(true)
 		//Fetched the posted medicine details from posted document to display it to consumer
@@ -61,29 +61,29 @@ const Home = (props) => {
 
 		//Fetch user data to check if the user is vendor or consumer
 		axios.get('https://medi-o-der.firebaseio.com/users.json')
-		.then(resp=>{
-			for(let i in resp.data){
-				if(email===resp.data[i].email){
-					if(resp.data[i].licence.toLowerCase()!=='no'){
-						props.isSeller()
-						return
+			.then(resp => {
+				for (let i in resp.data) {
+					if (email === resp.data[i].email) {
+						if (resp.data[i].licence.toLowerCase() !== 'no') {
+							props.isSeller()
+							return
+						}
 					}
 				}
-			}
-		})
-		.catch(err=>alert(err))
+			})
+			.catch(err => alert(err))
 	}, [email])
 
-	const addToCart=(val)=>{
-		val.quantity=1
+	const addToCart = (val) => {
+		val.quantity = 1
 		//props.addToCart(val)
-		let user=email.split('@')
-		axios.put(`https://medi-o-der.firebaseio.com/${user[0]}/cart/${val.id}.json`,{...val})
-		.then(resp=>{
-			console.log('resp', resp)
-			alert('Added')
-		})
-		.catch(err=>alert(err))
+		let user = email.split('@')
+		axios.put(`https://medi-o-der.firebaseio.com/${user[0]}/cart/${val.id}.json`, { ...val })
+			.then(resp => {
+				console.log('resp', resp)
+				alert('Added')
+			})
+			.catch(err => alert(err))
 	}
 
 	return (
@@ -94,10 +94,11 @@ const Home = (props) => {
 					loading ? <Spinner />
 						:
 						meds.map(val =>
-							<Grid item xs={6} sm={4} md={3} lg={2} >
+							<Fragment key={val.id}>
+								<Grid item xs={6} sm={4} md={3} lg={2} >
 									<Card>
 										<div className={classes.cardContent}>
-											<img src={val.photo} className={classes.images}/>
+											<img src={val.photo} className={classes.images} />
 											<div>Name:{val.name}</div>
 											<div>Price:{val.price}</div>
 											<div>Vendor:{val.vendor}</div>
@@ -106,10 +107,11 @@ const Home = (props) => {
 											<Button
 												variant='contained'
 												color='primary'
-												onClick={()=>addToCart(val)}>Add To Cart</Button>
+												onClick={() => addToCart(val)}>Add To Cart</Button>
 										</CardActions>
 									</Card>
-							</Grid>
+								</Grid>
+							</Fragment>
 						)
 				}
 
@@ -127,7 +129,7 @@ const mapDispatchToProps = dispatch => {
 	return {
 		medicinesFetched: (fetched) => dispatch({ type: 'MED_FETCHED', value: fetched }),
 		setUserData: (details) => dispatch({ type: 'SET_USER_DETAILS', value: details }),
-		isSeller:()=>dispatch({type:'IS_SELLER'})
+		isSeller: () => dispatch({ type: 'IS_SELLER' })
 	}
 }
 

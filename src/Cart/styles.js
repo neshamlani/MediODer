@@ -4,6 +4,7 @@ const useStyles = makeStyles((theme) => ({
   mainWrapper: {
     padding: 20,
     width: 'auto',
+    margin:'auto'
   },
   cardWrapper: {
     padding: 20,
