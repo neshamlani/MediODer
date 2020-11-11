@@ -14,6 +14,7 @@ const Cart = (props) => {
   const [loading, setLoading] = useState(false)
   const [emails, setEmails] = useState('')
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [deliveryMode, setDeliveryMode] = useState('')
 
   useEffect(() => {
     setLoading(true)
@@ -91,18 +92,31 @@ const Cart = (props) => {
     setIsModalOpen(!isModalOpen)
   }
 
+  const deliveryHandler = (option) => {
+    setDeliveryMode(option)
+  }
+
   return (
     <div className={classes.mainWrapper}>
       <div align='right'>
-        <Button
-          onClick={toggleModal}
-          variant='contained'
-          color='primary'>Buy Now</Button>
+        {
+          fetchedMeds.length > 0
+            ?
+            <Button
+              onClick={toggleModal}
+              variant='contained'
+              color='primary'>Buy Now</Button>
+            :
+            null
+        }
 
         <OrderSummary
           open={isModalOpen}
           close={() => toggleModal()}
-          meds={fetchedMeds} />
+          meds={fetchedMeds}
+          email={props.email}
+          delivery={deliveryHandler}
+          mode={deliveryMode} />
       </div>
       <Grid container spacing={4}>
         {

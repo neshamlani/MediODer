@@ -9,6 +9,11 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
 import StripeCheckout from '../../Stripe'
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
 
 const OrderSummary = (props) => {
   const classes = useStyles();
@@ -48,14 +53,27 @@ const OrderSummary = (props) => {
             </TableBody>
           </Table>
         </TableContainer>
+        <FormControl>
+          <FormLabel>Delivery Option</FormLabel>
+          <RadioGroup
+            value={props.mode}
+            className={classes.radioGroup}
+            onChange={(e) => props.delivery(e.target.value)}>
+            <FormControlLabel
+              value='homeDelivery'
+              label='Home Delivery'
+              control={<Radio color='primary' />} />
+
+            <FormControlLabel
+              value='placeOrder'
+              label='Place Order'
+              control={<Radio color='primary' />} />
+          </RadioGroup>
+        </FormControl>
         <div className={classes.priceWrapper}>
           <div>Total Price: {totalPrice}</div>
           <div>
-            {/* <Button
-              variant='contained'
-              color='primary'>Place Order</Button> */}
-
-            <StripeCheckout price={totalPrice} />
+            <StripeCheckout price={totalPrice} email={props.email} />
           </div>
         </div>
       </div>

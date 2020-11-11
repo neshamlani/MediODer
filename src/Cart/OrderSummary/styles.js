@@ -10,11 +10,14 @@ const useStyles = makeStyles((theme) => ({
     outline: 'none',
     width: 700,
     height: 500,
-    //overflowY: 'scroll',
     padding: 20,
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
+    ['@media (max-width:650px)']: {
+      width: '80vw',
+      height: '80vh'
+    }
   },
   tableWrapper: {
     padding: 20
@@ -26,6 +29,12 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'inherit',
     justifyContent: 'space-between'
+  },
+  radioGroup: {
+    '&.MuiFormGroup-root': {
+      display: 'flex',
+      flexDirection: 'row'
+    }
   }
 }));
 
