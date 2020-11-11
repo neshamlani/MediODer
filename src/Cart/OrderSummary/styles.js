@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     ['@media (max-width:650px)']: {
       width: '80vw',
-      height: '80vh'
+      height: '50vh'
     }
   },
   tableWrapper: {

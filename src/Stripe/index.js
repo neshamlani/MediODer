@@ -23,13 +23,14 @@ const Checkout = (props) => {
       panelLabel='Pay Now'
       currency='INR' >
 
-        <Button 
-          variant='contained'
-          color='primary'  
-        >
-          Pay Now
+      <Button
+        variant='contained'
+        color='primary'
+        disabled={props.mode ? false : true}
+      >
+        Pay Now
         </Button>
-      </StripeCheckout>
+    </StripeCheckout>
 
   )
 }

@@ -73,7 +73,7 @@ const OrderSummary = (props) => {
         <div className={classes.priceWrapper}>
           <div>Total Price: {totalPrice}</div>
           <div>
-            <StripeCheckout price={totalPrice} email={props.email} />
+            <StripeCheckout price={totalPrice} email={props.email} mode={props.mode}/>
           </div>
         </div>
       </div>
