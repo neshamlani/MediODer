@@ -16,12 +16,20 @@ const Checkout = (props) => {
     <StripeCheckout
       stripeKey={key}
       token={onToken}
-      label='Pay Now'
+      //label='Pay Now'
       description={`Your Total Amount is: ${props.price}`}
       amount={props.price * 100}
       email={props.email}
       panelLabel='Pay Now'
-      currency='INR' />
+      currency='INR' >
+
+        <Button 
+          variant='contained'
+          color='primary'  
+        >
+          Pay Now
+        </Button>
+      </StripeCheckout>
 
   )
 }
