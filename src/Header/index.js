@@ -21,7 +21,7 @@ const Header = (props) => {
 		}
 	})
 	const logoutUser = () => {
-		props.setUserToken(null)
+		props.logoutUser()
 		localStorage.removeItem('token')
 		setLoggedin(false)
 		props.history.push('/auth')
@@ -53,7 +53,7 @@ const Header = (props) => {
 										className={classes.link}>
 										<Button style={{ color: 'white' }}>Sell</Button>
 									</NavLink>
-									:null
+									: null
 							}
 							<NavLink
 								to='/cart'
@@ -96,7 +96,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
 	return {
-		setUserToken: (token) => dispatch({ type: 'LOGIN', value: token })
+		setUserToken: (token) => dispatch({ type: 'LOGIN', value: token }),
+		logoutUser: () => dispatch({ type: 'LOGOUT' })
 	}
 }
 

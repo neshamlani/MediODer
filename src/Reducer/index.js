@@ -4,7 +4,7 @@ const initialState = {
 	token: null,
 	medicines: [],
 	userDetails: '',
-	isSeller:false
+	isSeller: false
 }
 
 const reducer = (state = initialState, action) => {
@@ -27,11 +27,18 @@ const reducer = (state = initialState, action) => {
 				userDetails: action.value
 			}
 
-			case 'IS_SELLER':
-				return{
-					...state,
-					isSeller:true
-				}
+		case 'IS_SELLER':
+			return {
+				...state,
+				isSeller: true
+			}
+
+		case 'LOGOUT': {
+			return {
+				...initialState
+			}
+		}
+
 		default:
 			return state
 	}
