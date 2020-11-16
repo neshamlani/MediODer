@@ -26,7 +26,7 @@ const Checkout = (props) => {
       <Button
         variant='contained'
         color='primary'
-        disabled={props.mode ? false : true}
+        disabled={props.mode ? false : true && props.img ? false : true}
       >
         Pay Now
         </Button>

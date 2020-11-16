@@ -45,7 +45,6 @@ const Cart = (props) => {
   const removeFromCart = (val) => {
     axios.delete(`https://medi-o-der.firebaseio.com/${emails}/cart/${val.id}.json`)
       .then(resp => {
-        //alert('removed')
         let updated = fetchedMeds.filter(vals => vals.id != val.id)
         setFetchedMeds(updated)
       })
@@ -89,12 +88,22 @@ const Cart = (props) => {
   }
 
   const toggleModal = () => {
-    setIsModalOpen(!isModalOpen)
+    setIsModalOpen(!isModalOpen);
+    setDeliveryMode('');
   }
 
   const deliveryHandler = (option) => {
     setDeliveryMode(option)
   }
+
+  const patchPrescription = (url) => {
+    axios.post(`https://medi-o-der.firebaseio.com/${emails}/prescription.json`, {
+      url: url
+    })
+      .then()
+      .catch(err => alert(err))
+  }
+
 
   return (
     <div className={classes.mainWrapper}>
@@ -116,7 +125,9 @@ const Cart = (props) => {
           meds={fetchedMeds}
           email={props.email}
           delivery={deliveryHandler}
-          mode={deliveryMode} />
+          mode={deliveryMode}
+          email={emails}
+          upload={patchPrescription} />
       </div>
       <Grid container spacing={4}>
         {

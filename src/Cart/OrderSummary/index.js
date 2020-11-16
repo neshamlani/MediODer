@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import useStyles from './styles';
 import Modal from '@material-ui/core/Modal';
 import Table from '@material-ui/core/Table';
@@ -8,16 +8,45 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
-import StripeCheckout from '../../Stripe'
+import StripeCheckout from '../../Stripe';
+import Input from '@material-ui/core/Input';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
+import firebase from '../../Firebase';
+import Spinner from '../../Spinner';
 
 const OrderSummary = (props) => {
   const classes = useStyles();
+  const [isImgUploaded,setIsImgUploaded]=useState(false)
+  const [isLoading, setIsLoading] = useState(false)
   let totalPrice = 0;
+
+  const changeHandler = (e) => {
+    const image = e.target.files[0]
+    const upload = firebase.storage().ref(`/${props.email}/prescription`).put(image);
+    upload.on('state-changed',
+      (snapShot) => {
+        setIsLoading(true);
+      },
+      (err) => {
+        alert(err)
+        setIsLoading(false)
+      },
+      () => {
+        firebase.storage().ref(props.email).child('prescription').getDownloadURL()
+          .then(resp => {
+            console.log('resp', resp)
+            props.upload(resp)
+            alert('Prescription Uploaded')
+            setIsLoading(false)
+            setIsImgUploaded(true)
+          })
+      }
+    )
+  }
 
   return (
     <Modal
@@ -53,7 +82,15 @@ const OrderSummary = (props) => {
             </TableBody>
           </Table>
         </TableContainer>
-        <FormControl>
+        <input type='file' onChange={changeHandler} accept='.png,.jpg' />
+        {
+          isLoading
+            ?
+            <Spinner />
+            :
+            null
+        }
+        <FormControl style={{ marginTop: 10 }}>
           <FormLabel>Delivery Option</FormLabel>
           <RadioGroup
             value={props.mode}
@@ -73,11 +110,15 @@ const OrderSummary = (props) => {
         <div className={classes.priceWrapper}>
           <div>Total Price: {totalPrice}</div>
           <div>
-            <StripeCheckout price={totalPrice} email={props.email} mode={props.mode}/>
+            <StripeCheckout
+              price={totalPrice}
+              email={props.email}
+              mode={props.mode}
+              img={isImgUploaded} />
           </div>
         </div>
       </div>
-    </Modal>
+    </Modal >
   )
 }
 

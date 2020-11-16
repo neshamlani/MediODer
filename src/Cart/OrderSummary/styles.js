@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   radioGroup: {
     '&.MuiFormGroup-root': {
       display: 'flex',
-      flexDirection: 'row'
+      flexDirection: 'row',
     }
   }
 }));
