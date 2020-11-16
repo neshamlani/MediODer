@@ -97,7 +97,7 @@ const Cart = (props) => {
   }
 
   const patchPrescription = (url) => {
-    axios.post(`https://medi-o-der.firebaseio.com/${emails}/prescription.json`, {
+    axios.put(`https://medi-o-der.firebaseio.com/${emails}/prescription.json`, {
       url: url
     })
       .then()
