@@ -8,7 +8,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
-import StripeCheckout from '../../Stripe';
+import Checkout from '../../Stripe';
 import Input from '@material-ui/core/Input';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
@@ -110,11 +110,7 @@ const OrderSummary = (props) => {
         <div className={classes.priceWrapper}>
           <div>Total Price: {totalPrice}</div>
           <div>
-            <StripeCheckout
-              price={totalPrice}
-              email={props.email}
-              mode={props.mode}
-              img={isImgUploaded} />
+            <Checkout mode={props.mode} img={isImgUploaded}/>
           </div>
         </div>
       </div>
