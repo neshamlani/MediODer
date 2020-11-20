@@ -33,6 +33,9 @@ const Sell = (props) => {
 					if (i === 'cart') {
 						continue
 					}
+					if (i === 'prescription') {
+						continue
+					}
 					data.push({
 						...resp.data[i],
 						key: i
@@ -100,7 +103,6 @@ const Sell = (props) => {
 			})
 			.catch(err => alert(err))
 	}
-
 	const classes = useStyles()
 	return (
 		<div>

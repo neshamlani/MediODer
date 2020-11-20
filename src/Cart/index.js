@@ -23,10 +23,18 @@ const Cart = (props) => {
     setEmails(email[0])
     axios.get(`https://medi-o-der.firebaseio.com/${email[0]}/cart.json`)
       .then(resp => {
-        console.log('resp.data', resp.data)
         let fetched = []
         for (let i in resp.data) {
           if (resp.data[i] === null) {
+            continue
+          }
+          if (i === 'url') {
+            continue
+          }
+          if (i === 'price') {
+            continue
+          }
+          if (i === 'deliveryMode') {
             continue
           }
           fetched.push({
@@ -93,17 +101,29 @@ const Cart = (props) => {
   }
 
   const deliveryHandler = (option) => {
+    axios.patch(`https://medi-o-der.firebaseio.com/${emails}/cart.json`, {
+      deliveryMode: option
+    })
+      .then()
+      .catch(err => alert(err))
     setDeliveryMode(option)
   }
 
   const patchPrescription = (url) => {
-    axios.put(`https://medi-o-der.firebaseio.com/${emails}/prescription.json`, {
+    axios.patch(`https://medi-o-der.firebaseio.com/${emails}/cart.json`, {
       url: url
     })
       .then()
       .catch(err => alert(err))
   }
 
+  const addPrice = (price) => {
+    axios.patch(`https://medi-o-der.firebaseio.com/${emails}/cart.json`, {
+      price: price
+    })
+      .then()
+      .catch(err => alert(err))
+  }
 
   return (
     <div className={classes.mainWrapper}>
@@ -127,7 +147,9 @@ const Cart = (props) => {
           delivery={deliveryHandler}
           mode={deliveryMode}
           email={emails}
-          upload={patchPrescription} />
+          upload={patchPrescription}
+          addPrice={addPrice} />
+
       </div>
       <Grid container spacing={4}>
         {

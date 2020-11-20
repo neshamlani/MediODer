@@ -6,6 +6,7 @@ import Button from '@material-ui/core/Button'
 import { NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
+import Orders from '../Orders'
 import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem'
 
@@ -55,6 +56,12 @@ const Header = (props) => {
 									</NavLink>
 									: null
 							}
+							<NavLink
+								to='/orders'
+								activeClassName={classes.link}
+								className={classes.link}>
+								<Button style={{ color: 'white' }}>Orders</Button>
+							</NavLink>
 							<NavLink
 								to='/cart'
 								activeClassName={classes.link}

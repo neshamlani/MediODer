@@ -4,12 +4,14 @@ import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
+import axios from 'axios';
 import {
   ElementsConsumer,
   CardCvcElement,
   CardExpiryElement,
   CardNumberElement,
 } from "@stripe/react-stripe-js";
+
 const stripePromise = loadStripe('pk_test_51HktAnAL8iTBehj4geteQl83gouuOhpPaCT4m8SQV5H8iYdG55JQphXOtYARXNQ4pz4i4zOUxMeyvobTKq9vJ9th00BKc2YVFo');
 
 const Checkout = (props) => {
@@ -22,14 +24,14 @@ const Checkout = (props) => {
             <Button
               variant='contained'
               color='primary'
-              disabled={props.img ? props.mode ? false : true : true}
+              //disabled={props.img ? props.mode ? false : true : true}
               onClick={() => setOpen(!open)}>Pay</Button>
 
             <Modal
               open={open}
               onClose={() => setOpen(!open)}>
 
-              <Check stripe={stripe} elements={elements} />
+              <Check stripe={stripe} elements={elements} email={props.email} />
             </Modal>
           </div>
         )
@@ -39,7 +41,9 @@ const Checkout = (props) => {
   )
 };
 
+
 const Check = (props) => {
+  const [userCart, setUserCart] = useState(null);
   const handleSubmit = (event) => {
     event.preventDefault();
     const { stripe, elements } = props;
@@ -59,6 +63,14 @@ const Check = (props) => {
         }
         if (token) {
           //token
+          console.log('token', token)
+          axios.get(`https://medi-o-der.firebaseio.com/${props.email}/cart.json`)
+            .then(resp => {
+              axios.put(`https://medi-o-der.firebaseio.com/orders/${props.email}.json`, { ...resp.data })
+                .then(resp => alert('sucessfull'))
+                .catch(err => alert(err))
+            })
+            .catch(err => alert(err))
         }
       })
   }

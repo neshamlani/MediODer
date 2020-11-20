@@ -20,7 +20,7 @@ import Spinner from '../../Spinner';
 
 const OrderSummary = (props) => {
   const classes = useStyles();
-  const [isImgUploaded,setIsImgUploaded]=useState(false)
+  const [isImgUploaded, setIsImgUploaded] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   let totalPrice = 0;
 
@@ -47,7 +47,6 @@ const OrderSummary = (props) => {
       }
     )
   }
-
   return (
     <Modal
       open={props.open}
@@ -78,6 +77,9 @@ const OrderSummary = (props) => {
                     </TableRow>
                   )
                 })
+              }
+              {
+                props.addPrice(totalPrice)
               }
             </TableBody>
           </Table>
@@ -110,7 +112,11 @@ const OrderSummary = (props) => {
         <div className={classes.priceWrapper}>
           <div>Total Price: {totalPrice}</div>
           <div>
-            <Checkout mode={props.mode} img={isImgUploaded}/>
+            <Checkout
+              mode={props.mode}
+              img={isImgUploaded}
+              amt={totalPrice} 
+              email={props.email}/>
           </div>
         </div>
       </div>
