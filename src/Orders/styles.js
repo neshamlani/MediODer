@@ -6,7 +6,12 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     padding: 20
   },
-
+  ordersWrapper: {
+    display: 'flex',
+    flexDirection: 'column',
+    textAlign: 'center',
+    padding: 20
+  },
   title: {
     fontSize: 24,
     textAlign: 'center'
