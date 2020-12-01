@@ -7,6 +7,8 @@ import axios from 'axios'
 import Spinner from '../Spinner'
 import OrderSummary from './OrderSummary'
 import Button from '@material-ui/core/Button'
+import { withRouter } from 'react-router-dom';
+
 
 const Cart = (props) => {
   const classes = useStyles()
@@ -148,7 +150,8 @@ const Cart = (props) => {
           mode={deliveryMode}
           email={emails}
           upload={patchPrescription}
-          addPrice={addPrice} />
+          addPrice={addPrice} 
+          history={props.history}/>
 
       </div>
       <Grid container spacing={4}>
@@ -185,4 +188,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps)(Cart)
+export default connect(mapStateToProps)(withRouter(Cart))

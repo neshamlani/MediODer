@@ -116,7 +116,8 @@ const OrderSummary = (props) => {
               mode={props.mode}
               img={isImgUploaded}
               amt={totalPrice} 
-              email={props.email}/>
+              email={props.email}
+              history={props.history}/>
           </div>
         </div>
       </div>

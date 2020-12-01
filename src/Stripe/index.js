@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import useStyles from './styles';
 import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
+import Spinner from '../Spinner';
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import axios from 'axios';
@@ -31,7 +32,11 @@ const Checkout = (props) => {
               open={open}
               onClose={() => setOpen(!open)}>
 
-              <Check stripe={stripe} elements={elements} email={props.email} />
+              <Check
+                stripe={stripe}
+                elements={elements}
+                email={props.email}
+                history={props.history} />
             </Modal>
           </div>
         )
@@ -44,33 +49,42 @@ const Checkout = (props) => {
 
 const Check = (props) => {
   const [userCart, setUserCart] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const handleSubmit = (event) => {
+    setIsLoading(true);
     event.preventDefault();
     const { stripe, elements } = props;
     if (!stripe || !elements) {
       return;
     }
     const card = elements.getElement(CardNumberElement, CardExpiryElement, CardCvcElement);
-    console.log('card', card)
     const result = stripe.createToken(card);
-    console.log('result', result)
     result
       .then(resp => {
-        console.log('resp', resp);
         const { error, token } = resp;
         if (error) {
-          alert(error.message)
+          alert(error.message);
+          setIsLoading(false);
         }
         if (token) {
           //token
-          console.log('token', token)
           axios.get(`https://medi-o-der.firebaseio.com/${props.email}/cart.json`)
             .then(resp => {
               axios.put(`https://medi-o-der.firebaseio.com/orders/${props.email}.json`, { ...resp.data })
-                .then(resp => alert('sucessfull'))
-                .catch(err => alert(err))
+                .then(resp => {
+                  alert('Order Sucessfull');
+                  setIsLoading(false);
+                  props.history.push('/');
+                })
+                .catch(err => {
+                  alert(err);
+                  setIsLoading(false);
+                })
             })
-            .catch(err => alert(err))
+            .catch(err => {
+              alert(err);
+              setIsLoading(false);
+            })
         }
       })
   }
@@ -88,6 +102,13 @@ const Check = (props) => {
             color='primary'
             type='submit'
             className={classes.cardNumber}>Pay Now</Button>
+          {
+            isLoading
+              ?
+              <Spinner />
+              :
+              null
+          }
         </div>
       </form>
     </div>
