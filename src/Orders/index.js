@@ -140,7 +140,8 @@ const Order = (props) => {
                 <Button
                   color='primary'
                   variant='text'
-                  href={val.url}>
+                  href={val.url}
+                  target='_blank'>
                   Prescription
                 </Button>
               </TableCell>

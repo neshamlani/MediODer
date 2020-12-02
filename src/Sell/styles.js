@@ -5,8 +5,11 @@ const useStyles = makeStyles(() => ({
     marginTop: 20,
     textAlign: 'center',
   },
+  searchMedsSeller: {
+    width: '60%'
+  },
   title: {
-    marginTop:20,
+    marginTop: 20,
     color: '#3f51b5',
     fontWeight: '900',
     fontSize: '28px',

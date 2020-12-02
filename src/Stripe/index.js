@@ -25,7 +25,7 @@ const Checkout = (props) => {
             <Button
               variant='contained'
               color='primary'
-              //disabled={props.img ? props.mode ? false : true : true}
+              disabled={props.img ? props.mode ? false : true : true}
               onClick={() => setOpen(!open)}>Pay</Button>
 
             <Modal

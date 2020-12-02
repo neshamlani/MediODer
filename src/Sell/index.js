@@ -1,8 +1,7 @@
 import React, { useState, useEffect, Fragment } from 'react'
 import Grid from '@material-ui/core/Grid'
-import SearchIcon from '@material-ui/icons/Search'
-import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator'
 import Button from '@material-ui/core/Button'
+import TextField from '@material-ui/core/TextField'
 import useStyles from './styles'
 import { connect } from 'react-redux'
 import Card from '@material-ui/core/Card'
@@ -47,13 +46,10 @@ const Sell = (props) => {
 			.catch(err => alert(err))
 
 	}, [])
-	const handlerSearch = () => {
-
-	}
 
 	const changeHandler = (event) => {
 		setSearch(event.target.value.toLowerCase())
-		setSearchResult(props.getMedicines.filter(val => val.name.toLowerCase().includes(event.target.value)))
+		setSearchResult(props.getMedicines.filter(val => val.name.toLowerCase().includes(event.target.value.toLowerCase())))
 	}
 
 	const sellHandler = (meds) => {
@@ -109,26 +105,16 @@ const Sell = (props) => {
 			{
 				loading ? <Spinner /> :
 					<div className={classes.container}>
-						<ValidatorForm
-							onSubmit={handlerSearch}>
-							<Grid container justify='center' alignItems='center'>
-								<Grid item md={6}>
-									<TextValidator
-										type='text'
-										value={search}
-										variant='filled'
-										label='Search'
-										onChange={changeHandler}
-										validators={['required']}
-										errorMessages={['this field is required']}
-										fullWidth
-									/>
-								</Grid>
-								<Grid item>
-									<Button type='submit'><SearchIcon fontSize='small' color='primary' />Search</Button>
-								</Grid>
-							</Grid>
-						</ValidatorForm>
+						<TextField
+							type='text'
+							value={search}
+							variant='outlined'
+							label='Search'
+							onChange={changeHandler}
+							validators={['required']}
+							errorMessages={['this field is required']}
+							className={classes.searchMedsSeller}
+						/>
 						<Grid
 							container
 							justify='center'
