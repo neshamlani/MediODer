@@ -67,6 +67,7 @@ const Home = (props) => {
 			.then(resp => {
 				for (let i in resp.data) {
 					if (email === resp.data[i].email) {
+						props.setAddress(resp.data[i].address)
 						if (resp.data[i].licence.toLowerCase() !== 'no') {
 							props.isSeller()
 							return
@@ -121,6 +122,7 @@ const Home = (props) => {
 											<div>Name:{val.name}</div>
 											<div>Price:{val.price}</div>
 											<div>Vendor:{val.vendor}</div>
+											<div>Store Address:{val.address}</div>
 										</div>
 										<CardActions>
 											<Button
@@ -150,6 +152,7 @@ const Home = (props) => {
 											<div>Name:{val.name}</div>
 											<div>Price:{val.price}</div>
 											<div>Vendor:{val.vendor}</div>
+											<div>Store Address:{val.address}</div>
 										</div>
 										<CardActions>
 											<Button
@@ -177,7 +180,8 @@ const mapDispatchToProps = dispatch => {
 	return {
 		medicinesFetched: (fetched) => dispatch({ type: 'MED_FETCHED', value: fetched }),
 		setUserData: (details) => dispatch({ type: 'SET_USER_DETAILS', value: details }),
-		isSeller: () => dispatch({ type: 'IS_SELLER' })
+		isSeller: () => dispatch({ type: 'IS_SELLER' }),
+		setAddress: (address) => dispatch({ type: 'ADDRESS', value: address })
 	}
 }
 

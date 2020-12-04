@@ -20,6 +20,7 @@ const CartCard = (props) => {
               <div><span className={classes.spanText}>Price: </span> {props.price}</div>
               <div><span className={classes.spanText}>Used for: </span> {props.medType}</div>
               <div><span className={classes.spanText}>Seller: </span> {props.vendor}</div>
+              <div><span className={classes.spanText}>Address: </span> {props.address}</div>
             </div>
             <div className={classes.quantityWrapper}>
               <div><span className={classes.spanText}>Quantity: </span> {props.quantity}</div>

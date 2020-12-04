@@ -7,9 +7,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Button from '@material-ui/core/Button';
 import Checkout from '../../Stripe';
-import Input from '@material-ui/core/Input';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -65,7 +63,7 @@ const OrderSummary = (props) => {
             <TableBody>
               {
                 props.meds.map(val => {
-                  let mrp = val.price.match(/\d+/g)
+                  let mrp = String(val.price).match(/\d+/g)
                   mrp = Number(mrp[0])
                   mrp = mrp * val.quantity
                   totalPrice = totalPrice + mrp
@@ -84,14 +82,17 @@ const OrderSummary = (props) => {
             </TableBody>
           </Table>
         </TableContainer>
-        <input type='file' onChange={changeHandler} accept='.png,.jpg' />
-        {
-          isLoading
-            ?
-            <Spinner />
-            :
-            null
-        }
+        <div style={{ marginTop: 10 }}>Upload your prescription in jpg or png format</div>
+        <input style={{ marginTop: 10 }} type='file' onChange={changeHandler} accept='.png,.jpg' />
+        <div style={{ marginTop: 10 }}>
+          {
+            isLoading
+              ?
+              <Spinner />
+              :
+              null
+          }
+        </div>
         <FormControl style={{ marginTop: 10 }}>
           <FormLabel>Delivery Option</FormLabel>
           <RadioGroup
@@ -115,9 +116,9 @@ const OrderSummary = (props) => {
             <Checkout
               mode={props.mode}
               img={isImgUploaded}
-              amt={totalPrice} 
+              amt={totalPrice}
               email={props.email}
-              history={props.history}/>
+              history={props.history} />
           </div>
         </div>
       </div>

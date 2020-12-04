@@ -150,8 +150,8 @@ const Cart = (props) => {
           mode={deliveryMode}
           email={emails}
           upload={patchPrescription}
-          addPrice={addPrice} 
-          history={props.history}/>
+          addPrice={addPrice}
+          history={props.history} />
 
       </div>
       <Grid container spacing={4}>
@@ -167,6 +167,7 @@ const Cart = (props) => {
                     name={val.name}
                     price={val.price}
                     vendor={val.vendor}
+                    address={val.address}
                     medType={val.medType}
                     quantity={val.quantity}
                     remove={() => removeFromCart(val)}

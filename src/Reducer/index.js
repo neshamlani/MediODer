@@ -4,7 +4,8 @@ const initialState = {
 	token: null,
 	medicines: [],
 	userDetails: '',
-	isSeller: false
+	isSeller: false,
+	address: ''
 }
 
 const reducer = (state = initialState, action) => {
@@ -31,6 +32,12 @@ const reducer = (state = initialState, action) => {
 			return {
 				...state,
 				isSeller: true
+			}
+
+		case 'ADDRESS':
+			return {
+				...state,
+				address: action.value
 			}
 
 		case 'LOGOUT': {

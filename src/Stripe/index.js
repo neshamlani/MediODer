@@ -3,6 +3,7 @@ import useStyles from './styles';
 import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
 import Spinner from '../Spinner';
+import { connect } from 'react-redux';
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import axios from 'axios';
@@ -36,7 +37,8 @@ const Checkout = (props) => {
                 stripe={stripe}
                 elements={elements}
                 email={props.email}
-                history={props.history} />
+                history={props.history}
+                address={props.address} />
             </Modal>
           </div>
         )
@@ -70,7 +72,11 @@ const Check = (props) => {
           //token
           axios.get(`https://medi-o-der.firebaseio.com/${props.email}/cart.json`)
             .then(resp => {
-              axios.put(`https://medi-o-der.firebaseio.com/orders/${props.email}.json`, { ...resp.data })
+              const data = {
+                ...resp.data,
+                address: props.address
+              }
+              axios.put(`https://medi-o-der.firebaseio.com/orders/${props.email}.json`, data)
                 .then(resp => {
                   alert('Order Sucessfull');
                   setIsLoading(false);
@@ -115,5 +121,11 @@ const Check = (props) => {
   );
 }
 
+const mapStateToProps = state => {
+  return {
+    address: state.address
+  }
+}
 
-export default Checkout;
+
+export default connect(mapStateToProps)(Checkout);

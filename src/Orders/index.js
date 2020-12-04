@@ -10,15 +10,16 @@ import TableRow from '@material-ui/core/TableRow';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
-import Divider from '@material-ui/core/Divider';
-
+import Spinner from '../Spinner';
 const Order = (props) => {
   const [orders, setOrders] = useState([]);
   const [amt, setAmt] = useState('')
   const [mode, setMode] = useState('')
   const [url, setUrl] = useState('')
   const [emails, setEmails] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
   useEffect(() => {
+    setIsLoading(true)
     let email = props.emails.split('@');
     setEmails(email[0])
     if (props.isSeller) {
@@ -32,8 +33,12 @@ const Order = (props) => {
           }
           console.log('data', data)
           setOrders(resp.data)
+          setIsLoading(false)
         })
-        .catch(err => alert(err))
+        .catch(err => {
+          alert(err)
+          setIsLoading(false)
+        })
     }
     else {
       axios.get(`https://medi-o-der.firebaseio.com/orders/${email[0]}.json`)
@@ -47,6 +52,11 @@ const Order = (props) => {
               setUrl(resp.data[i])
               continue
             }
+
+            if (i === 'address') {
+              continue
+            }
+
             if (i === 'price') {
               setAmt(resp.data[i])
               continue
@@ -60,11 +70,14 @@ const Order = (props) => {
             })
           }
           setOrders(data)
+          setIsLoading(false)
         })
-        .catch(err => alert(err))
+        .catch(err => {
+          alert(err)
+          setIsLoading(false)
+        })
     }
   }, []);
-  console.log('orders', orders)
   const travel = () => {
     let data = [];
     let consumer = {}
@@ -74,6 +87,13 @@ const Order = (props) => {
         if (j === 'deliveryMode') {
           consumer = {
             deliveryMode: orders[i][j]
+          }
+          data.push(consumer)
+          continue
+        }
+        if (j === 'address') {
+          consumer = {
+            address: orders[i][j]
           }
           data.push(consumer)
           continue
@@ -119,7 +139,7 @@ const Order = (props) => {
           return (
             <TableRow>
               <TableCell>Delivery Mode</TableCell>
-              <TableCell></TableCell>
+              <TableCell>----------</TableCell>
               <TableCell>{val.deliveryMode}</TableCell>
             </TableRow>
           )
@@ -127,15 +147,23 @@ const Order = (props) => {
           return (
             <TableRow>
               <TableCell>Total Price</TableCell>
-              <TableCell></TableCell>
+              <TableCell>----------</TableCell>
               <TableCell>{val.totalPrice}</TableCell>
+            </TableRow>
+          )
+        } else if (val.address) {
+          return (
+            <TableRow>
+              <TableCell>Address</TableCell>
+              <TableCell>----------</TableCell>
+              <TableCell>{val.address}</TableCell>
             </TableRow>
           )
         } else if (val.url) {
           return (
             <TableRow>
               <TableCell>Prescription</TableCell>
-              <TableCell></TableCell>
+              <TableCell>----------</TableCell>
               <TableCell>
                 <Button
                   color='primary'
@@ -155,55 +183,63 @@ const Order = (props) => {
   return (
     <div>
       {
-        props.isSeller
+        isLoading
           ?
-          <div className={classes.ordersWrapper}>
-            <h1>Today's Orders</h1>
-            <TableContainer>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Medicine Name</TableCell>
-                    <TableCell>Quantity</TableCell>
-                    <TableCell>Consumer</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {travel()}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </div>
+          <Spinner />
           :
-          <div className={classes.mainWrapper}>
-            <div className={classes.title}>Your Order</div>
-            <div className={classes.detailsWrapper}>
-              <div>Total Price: {amt}</div>
-              <div>Delivery Mode: {mode}</div>
-              <div>
-                <Button
-                  href={url}
-                  variant='text'
-                  color='primary'
-                  target='_blank'
-                >
-                  Prescription
+          <div>
+            {
+              props.isSeller
+                ?
+                <div className={classes.ordersWrapper}>
+                  <h1>Today's Orders</h1>
+                  <TableContainer>
+                    <Table>
+                      <TableHead>
+                        <TableRow>
+                          <TableCell>Medicine Name</TableCell>
+                          <TableCell>Quantity</TableCell>
+                          <TableCell>Consumer</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {travel()}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                </div>
+                :
+                <div className={classes.mainWrapper}>
+                  <div className={classes.title}>Your Order</div>
+                  <div className={classes.detailsWrapper}>
+                    <div>Total Price: {amt}</div>
+                    <div>Delivery Mode: {mode}</div>
+                    <div>
+                      <Button
+                        href={url}
+                        variant='text'
+                        color='primary'
+                        target='_blank'
+                      >
+                        Prescription
                 </Button>
-              </div>
-            </div>
-            <div className={classes.cardWrapper}>
-              {
-                orders.map(val =>
-                  <Card style={{ marginLeft: 10, padding: 20 }}>
-                    <img src={val.photo} width='200px' height='200px' />
-                    <div>Name: {val.name}</div>
-                    <div>Price: {val.price}</div>
-                    <div>Quantity: {val.quantity}</div>
-                    <div>Vendor{val.vendor}</div>
-                  </Card>
-                )
-              }
-            </div>
+                    </div>
+                  </div>
+                  <div className={classes.cardWrapper}>
+                    {
+                      orders.map(val =>
+                        <Card style={{ margin: 10, padding: 20 }}>
+                          <img src={val.photo} width='200px' height='200px' />
+                          <div>Name: {val.name}</div>
+                          <div>Price: {val.price}</div>
+                          <div>Quantity: {val.quantity}</div>
+                          <div>Vendor{val.vendor}</div>
+                        </Card>
+                      )
+                    }
+                  </div>
+                </div>
+            }
           </div>
       }
     </div>

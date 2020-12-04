@@ -12,6 +12,7 @@ const useStyles = makeStyles((theme) => ({
     height: 500,
     padding: 20,
     display: 'flex',
+    overflowY: 'scroll',
     flexDirection: 'column',
     alignItems: 'center',
     ['@media (max-width:650px)']: {

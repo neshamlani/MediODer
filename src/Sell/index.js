@@ -58,7 +58,8 @@ const Sell = (props) => {
 			photo: meds.photo,
 			price: meds.price,
 			id: meds.key,
-			medType: meds.type
+			medType: meds.type,
+			address: props.address
 		}
 		//upload the data of medicine to 2 documents as vendor wants to sell the medicines
 		axios.post(`https://medi-o-der.firebaseio.com/${userName}.json`, medData)
@@ -186,7 +187,8 @@ const Sell = (props) => {
 const mapStateToProps = state => {
 	return {
 		getMedicines: state.medicines,
-		userDetails: state.userDetails
+		userDetails: state.userDetails,
+		address: state.address
 	}
 }
 

@@ -26,7 +26,8 @@ const useStyles = makeStyles(theme => ({
   cardWrapper: {
     marginTop: 20,
     display: 'flex',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    flexWrap: 'wrap'
   }
 }));
 
