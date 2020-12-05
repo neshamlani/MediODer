@@ -30,7 +30,7 @@ const Home = (props) => {
 				setMeds(details)
 			})
 			.catch((err) => {
-				alert(err)
+				alert(err.response.data.error.message)
 			})
 		//fetch the complete dataset of medicines to use it for vendor
 		axios.get('https://medi-o-der.firebaseio.com/mediciens.json')
@@ -44,7 +44,7 @@ const Home = (props) => {
 				}
 				props.medicinesFetched(details)
 			})
-			.catch(err => alert(err))
+			.catch(err => alert(err.response.data.error.message))
 		const id = {
 			idToken: props.token
 		}
@@ -58,7 +58,7 @@ const Home = (props) => {
 				setLoading(false)
 			})
 			.catch(err => {
-				alert(err)
+				alert(err.response.data.error.message)
 				setLoading(false)
 			})
 
@@ -75,7 +75,7 @@ const Home = (props) => {
 					}
 				}
 			})
-			.catch(err => alert(err))
+			.catch(err => alert(err.response.data.error.message))
 	}, [email])
 
 	const addToCart = (val) => {
@@ -87,7 +87,7 @@ const Home = (props) => {
 				console.log('resp', resp)
 				alert('Added')
 			})
-			.catch(err => alert(err))
+			.catch(err => alert(err.response.data.error.message))
 	}
 
 	const searchHandler = (event) => {

@@ -43,7 +43,7 @@ const Sell = (props) => {
 				setUploadedMeds(data)
 				setLoading(false)
 			})
-			.catch(err => alert(err))
+			.catch(err => alert(err.response.data.error.message))
 
 	}, [])
 
@@ -72,9 +72,9 @@ const Sell = (props) => {
 						// setUploadedMeds(addMeds)
 						alert('Posted')
 					})
-					.catch(err => alert(err))
+					.catch(err => alert(err.response.data.error.message))
 			})
-			.catch(err => alert(err))
+			.catch(err => alert(err.response.data.error.message))
 		//console.log('medData', medData)
 
 	}
@@ -89,16 +89,16 @@ const Sell = (props) => {
 							if (resp.data[i].id === med.id) {
 								axios.delete(`https://medi-o-der.firebaseio.com/posted/${i}.json`)
 									.then(() => alert('removed'))
-									.catch(err => alert(err))
+									.catch(err => alert(err.response.data.error.message))
 							}
 						}
 					})
-					.catch(err => alert(err))
+					.catch(err => alert(err.response.data.error.message))
 				let del = uploadedMeds
 				let updated = del.filter(val => val.key !== med.key)
 				setUploadedMeds(updated)
 			})
-			.catch(err => alert(err))
+			.catch(err => alert(err.response.data.error.message))
 	}
 	const classes = useStyles()
 	return (

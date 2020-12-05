@@ -30,7 +30,7 @@ const Profile = (props) => {
 
       })
       .catch(err => {
-        alert(err)
+        alert(err.response.data.error.message)
         setLoading(false)
       })
   }, [])

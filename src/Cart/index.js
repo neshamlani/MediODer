@@ -47,7 +47,7 @@ const Cart = (props) => {
         setLoading(false)
       })
       .catch(err => {
-        alert(err)
+        alert(err.response.data.error.message)
         setLoading(false)
       })
   }, [])
@@ -58,7 +58,7 @@ const Cart = (props) => {
         let updated = fetchedMeds.filter(vals => vals.id != val.id)
         setFetchedMeds(updated)
       })
-      .catch(err => alert(err))
+      .catch(err => alert(err.response.data.error.message))
   }
 
   const increment = (val) => {
@@ -76,7 +76,7 @@ const Cart = (props) => {
         })
         setFetchedMeds(updates)
       })
-      .catch(err => alert(err))
+      .catch(err => alert(err.response.data.error.message))
   }
 
   const decrement = (val) => {
@@ -94,7 +94,7 @@ const Cart = (props) => {
         })
         setFetchedMeds(updates)
       })
-      .catch(err => alert(err))
+      .catch(err => alert(err.response.data.error.message))
   }
 
   const toggleModal = () => {
@@ -107,7 +107,7 @@ const Cart = (props) => {
       deliveryMode: option
     })
       .then()
-      .catch(err => alert(err))
+      .catch(err => alert(err.response.data.error.message))
     setDeliveryMode(option)
   }
 
@@ -116,7 +116,7 @@ const Cart = (props) => {
       url: url
     })
       .then()
-      .catch(err => alert(err))
+      .catch(err => alert(err.response.data.error.message))
   }
 
   const addPrice = (price) => {
@@ -124,7 +124,7 @@ const Cart = (props) => {
       price: price
     })
       .then()
-      .catch(err => alert(err))
+      .catch(err => alert(err.response.data.error.message))
   }
 
   return (

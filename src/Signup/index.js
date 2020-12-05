@@ -36,10 +36,10 @@ const Signup = (props) => {
 				props.setUserToken(resp.data.idToken)
 				axios.post('https://medi-o-der.firebaseio.com/users.json', details)
 					.then(() => setLoading(false))
-					.catch(err => alert(err))
+					.catch(err => alert(err.response.data.error.message))
 			})
 			.catch((err) => {
-				alert(err)
+				alert(err.response.data.error.message)
 				setLoading(false)
 			})
 	}

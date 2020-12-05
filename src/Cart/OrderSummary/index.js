@@ -30,7 +30,7 @@ const OrderSummary = (props) => {
         setIsLoading(true);
       },
       (err) => {
-        alert(err)
+        alert(err.response.data.error.message)
         setIsLoading(false)
       },
       () => {

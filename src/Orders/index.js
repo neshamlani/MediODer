@@ -36,7 +36,7 @@ const Order = (props) => {
           setIsLoading(false)
         })
         .catch(err => {
-          alert(err)
+          alert(err.response.data.error.message)
           setIsLoading(false)
         })
     }
@@ -73,7 +73,7 @@ const Order = (props) => {
           setIsLoading(false)
         })
         .catch(err => {
-          alert(err)
+          alert(err.response.data.error.message)
           setIsLoading(false)
         })
     }
@@ -233,7 +233,7 @@ const Order = (props) => {
                           <div>Name: {val.name}</div>
                           <div>Price: {val.price}</div>
                           <div>Quantity: {val.quantity}</div>
-                          <div>Vendor{val.vendor}</div>
+                          <div>Vendor: {val.vendor}</div>
                         </Card>
                       )
                     }

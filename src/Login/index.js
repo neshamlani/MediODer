@@ -36,7 +36,7 @@ const Login = (props) => {
                 props.history.push('/')
             })
             .catch(err => {
-                alert(err)
+                alert(err.response.data.error.message)
                 setLoading(false)
             })
     }

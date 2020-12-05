@@ -83,12 +83,12 @@ const Check = (props) => {
                   props.history.push('/');
                 })
                 .catch(err => {
-                  alert(err);
+                  alert(err.response.data.error.message);
                   setIsLoading(false);
                 })
             })
             .catch(err => {
-              alert(err);
+              alert(err.response.data.error.message);
               setIsLoading(false);
             })
         }
