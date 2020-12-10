@@ -79,6 +79,10 @@ const Home = (props) => {
 	}, [email])
 
 	const addToCart = (val) => {
+		if (props.isSeller) {
+			alert('You are a seller');
+			return;
+		}
 		val.quantity = 1
 		//props.addToCart(val)
 		let user = email.split('@')
@@ -173,7 +177,8 @@ const Home = (props) => {
 
 const mapStateToProps = state => {
 	return {
-		token: state.token
+		token: state.token,
+		isSeller: state.isSeller
 	}
 }
 const mapDispatchToProps = dispatch => {
