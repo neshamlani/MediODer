@@ -50,6 +50,7 @@ const Profile = (props) => {
                   variant="outlined"
                   value={data.name}
                   disabled
+                  fullWidth
                   className={classes.textField}
                   InputProps={{ className: classes.textFieldDisabled }} />
 

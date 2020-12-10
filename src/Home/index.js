@@ -79,10 +79,6 @@ const Home = (props) => {
 	}, [email])
 
 	const addToCart = (val) => {
-		if (props.isSeller) {
-			alert('You are a seller');
-			return;
-		}
 		val.quantity = 1
 		//props.addToCart(val)
 		let user = email.split('@')
@@ -129,10 +125,16 @@ const Home = (props) => {
 											<div>Store Address:{val.address}</div>
 										</div>
 										<CardActions>
-											<Button
-												variant='contained'
-												color='primary'
-												onClick={() => addToCart(val)}>Add To Cart</Button>
+											{
+												props.seller
+													?
+													null
+													:
+													<Button
+														variant='contained'
+														color='primary'
+														onClick={() => addToCart(val)}>Add To Cart</Button>
+											}
 										</CardActions>
 									</Card>
 								</Grid>
@@ -159,10 +161,16 @@ const Home = (props) => {
 											<div>Store Address:{val.address}</div>
 										</div>
 										<CardActions>
-											<Button
-												variant='contained'
-												color='primary'
-												onClick={() => addToCart(val)}>Add To Cart</Button>
+											{
+												props.seller
+													?
+													null
+													:
+													<Button
+														variant='contained'
+														color='primary'
+														onClick={() => addToCart(val)}>Add To Cart</Button>
+											}
 										</CardActions>
 									</Card>
 								</Grid>
@@ -178,7 +186,7 @@ const Home = (props) => {
 const mapStateToProps = state => {
 	return {
 		token: state.token,
-		isSeller: state.isSeller
+		seller: state.isSeller
 	}
 }
 const mapDispatchToProps = dispatch => {

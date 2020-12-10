@@ -67,9 +67,9 @@ const Sell = (props) => {
 				medData.vendor = userName
 				axios.post(`https://medi-o-der.firebaseio.com/posted.json`, medData)
 					.then(() => {
-						// var addMeds=uploadedMeds
-						// addMeds.push(medData)
-						// setUploadedMeds(addMeds)
+						let update = [...uploadedMeds];
+						update.push(medData)
+						setUploadedMeds(update)
 						alert('Posted')
 					})
 					.catch(err => alert(err.response.data.error.message))
@@ -88,7 +88,7 @@ const Sell = (props) => {
 						for (let i in resp.data) {
 							if (resp.data[i].id === med.id) {
 								axios.delete(`https://medi-o-der.firebaseio.com/posted/${i}.json`)
-									.then(() => alert('removed'))
+									.then(() => console.log('Removed'))
 									.catch(err => alert(err.response.data.error.message))
 							}
 						}
